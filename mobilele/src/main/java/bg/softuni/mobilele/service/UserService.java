@@ -38,10 +38,10 @@ public class UserService {
     }
 
     public boolean login(UserLoginDTO loginDTO) {
-        Optional<UserEntity> userOpt = userRepository.findByEmail(loginDTO.getUsername());
+        Optional<UserEntity> userOpt = userRepository.findByEmail(loginDTO.getEmail());
 
         if (userOpt.isEmpty()) {
-            LOGGER.warn("User with name [{}] not found.", loginDTO.getUsername());
+            LOGGER.warn("User with name [{}] not found.", loginDTO.getEmail());
             return false;
         }
 

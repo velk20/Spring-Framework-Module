@@ -1,6 +1,5 @@
 package bg.softuni.mobilele.web;
 
-import bg.softuni.mobilele.model.dto.UserLoginDTO;
 import bg.softuni.mobilele.model.dto.UserRegisterDTO;
 import bg.softuni.mobilele.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -16,41 +15,35 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/users")
-public class UserController {
-
+public class UserRegistrationController {
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public UserRegistrationController(UserService userService) {
         this.userService = userService;
     }
 
     @ModelAttribute("userModel")
-    public void initModel(Model model) {
-        model.addAttribute("userModel", new UserLoginDTO());
+    public void initUserModel(Model model) {
+        model.addAttribute("userModel", new UserRegisterDTO());
     }
-    @GetMapping("/login")
-    public String login() {
-        return "auth-login";
+    @GetMapping("/register")
+    public String register() {
+        return "auth-register";
     }
 
-    @PostMapping("/login")
-    public String login(@Valid UserLoginDTO userLoginDTO,
-                        BindingResult bindingResult,
-                        RedirectAttributes redirectAttributes) {
+
+    @PostMapping("/register")
+    public String register( @Valid UserRegisterDTO userModel,
+                            BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("userModel", userLoginDTO);
+            redirectAttributes.addFlashAttribute("userModel", userModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userModel",
                     bindingResult);
-            return "redirect:/users/login";
+            return "redirect:/users/register";
         }
-        userService.login(userLoginDTO);
+        userService.registerAndLogin(userModel);
+
         return "redirect:/";
     }
-
-    @GetMapping("/logout")
-    public String logout() {
-        userService.logout();
-        return "redirect:/";
-    }
-
 }
