@@ -25,8 +25,8 @@ public class UserController {
     }
 
     @ModelAttribute("userModel")
-    public void initModel(Model model) {
-        model.addAttribute("userModel", new UserLoginDTO());
+    public UserLoginDTO initModel() {
+        return new UserLoginDTO();
     }
     @GetMapping("/login")
     public String login() {

@@ -1,13 +1,30 @@
 package bg.softuni.pathfinder.model.dto;
 
-public class RegisterUserDTO {
-    private String username;
-    private String fullname;
-    private String email;
-    private String password;
-    private String confirmPassword;
-    private Integer age;
+import lombok.ToString;
 
+import javax.validation.constraints.*;
+
+@ToString
+public class RegisterUserDTO {
+    @NotEmpty
+    @Size(min = 5,max = 20)
+    private String username;
+    @NotBlank
+    @Size(min = 5,max = 20)
+    private String fullname;
+    @NotEmpty
+    @Email
+    private String email;
+    @NotEmpty
+    @Size(min = 5,max = 20)
+    private String password;
+    @NotEmpty
+    @Size(min = 5,max = 20)
+    private String confirmPassword;
+    @NotNull
+    @PositiveOrZero
+    @Max(90)
+    private Integer age;
     public String getUsername() {
         return username;
     }

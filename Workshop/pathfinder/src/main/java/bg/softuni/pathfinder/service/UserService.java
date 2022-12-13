@@ -24,12 +24,22 @@ public class UserService {
 
     public void registerUser(RegisterUserDTO registerUserDTO) {
         if (!registerUserDTO.getPassword().equals(registerUserDTO.getConfirmPassword())) {
-            return;
+            throw new RuntimeException("passwords.match");
+        }
+
+        Optional<User> byUsername = this.userRepository.findByUsername(registerUserDTO.getUsername());
+        if (byUsername.isPresent()) {
+            throw new RuntimeException("username.used");
+        }
+
+        Optional<User> byEmail = this.userRepository.findByEmail(registerUserDTO.getEmail());
+        if (byEmail.isPresent()) {
+            throw new RuntimeException("email.used");
         }
 
         User user = mapper.map(registerUserDTO, User.class);
 
-        userRepository.save(user);
+        this.userRepository.save(user);
     }
 
     public void loginUser(LoginUserDTO loginUserDTO) {

@@ -3,6 +3,7 @@ package bg.softuni.mobilele.service;
 import bg.softuni.mobilele.model.dto.UserLoginDTO;
 import bg.softuni.mobilele.model.dto.UserRegisterDTO;
 import bg.softuni.mobilele.model.entity.UserEntity;
+import bg.softuni.mobilele.model.mapper.UserMapper;
 import bg.softuni.mobilele.repository.UserRepository;
 import bg.softuni.mobilele.user.CurrentUser;
 import org.slf4j.Logger;
@@ -18,20 +19,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final CurrentUser currentUser;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, CurrentUser currentUser, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, CurrentUser currentUser, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.currentUser = currentUser;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     public void registerAndLogin(UserRegisterDTO userRegisterDTO) {
-        UserEntity newUser = new UserEntity()
-                .setActive(true)
-                .setEmail(userRegisterDTO.getEmail())
-                .setFirstName(userRegisterDTO.getFirstName())
-                .setLastName(userRegisterDTO.getLastName())
-                .setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+        UserEntity newUser = userMapper.userDtoToUserEntity(userRegisterDTO)
+                             .setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
 
         UserEntity toLoggedUser = userRepository.save(newUser);
         this.login(toLoggedUser);
@@ -61,7 +60,8 @@ public class UserService {
     private void login(UserEntity userEntity) {
         currentUser
                 .setLoggedIn(true)
-                .setName(userEntity.getFirstName() + " " + userEntity.getLastName());
+                .setName(userEntity.getFirstName() + " " + userEntity.getLastName())
+                .setEmail(userEntity.getEmail());
     }
 
     public void logout() {
