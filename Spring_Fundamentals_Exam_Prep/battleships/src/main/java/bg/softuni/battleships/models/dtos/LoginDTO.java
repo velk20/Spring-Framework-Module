@@ -1,8 +1,11 @@
 package bg.softuni.battleships.models.dtos;
 
+import lombok.ToString;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+@ToString
 public class LoginDTO {
     @NotEmpty
     @Size(min = 3,max = 10)
