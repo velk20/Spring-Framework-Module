@@ -1,8 +1,11 @@
 package bg.softuni.battleships.services;
 
+import bg.softuni.battleships.models.dtos.BattleShipsDTO;
 import bg.softuni.battleships.models.dtos.CreateShipDTO;
+import bg.softuni.battleships.models.dtos.ShipBattleDTO;
 import bg.softuni.battleships.models.entities.Category;
 import bg.softuni.battleships.models.entities.Ship;
+import bg.softuni.battleships.models.entities.User;
 import bg.softuni.battleships.models.enums.CategoryNames;
 import bg.softuni.battleships.repositories.CategoryRepository;
 import bg.softuni.battleships.repositories.ShipRepository;
@@ -11,7 +14,10 @@ import bg.softuni.battleships.session.LoggedUser;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShipService {
@@ -42,5 +48,36 @@ public class ShipService {
         this.shipRepository.save(ship);
 
         return true;
+    }
+
+    public List<Ship> getAllUserShips(Long id) {
+        User user = this.userRepository.findById(id).orElseThrow();
+
+        return this.shipRepository.findAllByUser(user);
+    }
+
+    public List<Ship> getAllNonUserShips(Long id) {
+        List<Ship> allShips = this.shipRepository.findAll();
+        return allShips.stream().filter(s -> !s.getUser().getId().equals(id)).collect(Collectors.toList());
+    }
+
+    public List<ShipBattleDTO> getAllShips() {
+        return this.shipRepository.findAll().stream()
+                .map(s -> mapper.map(s, ShipBattleDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void battle(BattleShipsDTO battleShipsDTO) {
+        Ship attackerShip = this.shipRepository.findById(battleShipsDTO.getAttackerId()).orElseThrow();
+        Ship defenderShip = this.shipRepository.findById(battleShipsDTO.getDefenderId()).orElseThrow();
+
+        defenderShip.setHealth(defenderShip.getHealth() - attackerShip.getPower());
+        if (defenderShip.getHealth() > 0) {
+            this.shipRepository.save(defenderShip);
+        } else {
+            this.shipRepository.delete(defenderShip);
+        }
+
     }
 }
