@@ -54,7 +54,8 @@
                             <option th:value="0" selected>Select one of the ships that are owned by other users</option>
                             <option th:each="ship : ${otherShips}"
                                     th:value="${ship.id}"
-                            th:text="${ship.name}">Defender</option>
+                                    th:text="${ship.name}">
+                                Defender</option>
                         </select>
                     </div>
                     <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb"

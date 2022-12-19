@@ -50,4 +50,5 @@ public class ShipController {
 
         return "redirect:/home";
     }
+
 }

@@ -62,7 +62,7 @@ public class ShipService {
     }
 
     public List<ShipBattleDTO> getAllShips() {
-        return this.shipRepository.findAll().stream()
+        return this.shipRepository.findAllByOrderByHealthAscNameDescPowerAsc().stream()
                 .map(s -> mapper.map(s, ShipBattleDTO.class))
                 .collect(Collectors.toList());
     }

@@ -37,8 +37,26 @@
             <button type="submit" class="btn btn-warning  mb-3">Login</button>
         </div>
 
+        <button id="my-button" >Button Try JQuery</button>
+        <div id="my-alert" hidden="true" class="alert alert-success alert-dismissable">
+            <a class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>Success!</strong>This alert box could indicate a successful or positive action.
+        </div>
+
     </form>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>
 </body>
+<script th:inline="javascript">
+    $(document).ready(function (){
+        $('#my-button').click(function (e) {
+            e.preventDefault();
+            if ( $('#my-alert').hasAttribute('hidden')){
+                $('#my-alert').removeAttr('hidden');
+            }else{
+                $('#my-alert').attr('hidden',true);
+            }
+        })
+    })
+</script>
 </html>

@@ -50,4 +50,8 @@ public class AuthService {
         return true;
     }
 
+    public boolean isLoggedIn() {
+        return this.loggedUser.getId() != null;
+    }
+
 }

@@ -1,0 +1,30 @@
+### Include thymleafe 
+- After the DOCTYPE => <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+### Include fragmets
+- <div th:replace="fragments/nav"></div>
+
+### Form methods 
+-    <form th:action="@{/...url}"
+              th:method="post"
+              th:object="${modelAttribute}"
+			  
+			  
+### Select HTML 
+-  <select th:field="*{attackerId}" class="form-select mt-5" aria-label="Default select example">
+                            <option th:value="0" selected>Select one of the ships that are owned by the current
+                                user</option>
+                            <option th:each="ship : ${userShips}"
+                                    th:value="${ship.id}"
+                                    th:text="${ship.name}">Attacker</option>
+                        </select>
+
+### Form- Groups
+-  										on the input => th:field="*{username}" &&   th:errorclass="is-invalid"
+									   and  
+									   class="invalid-feedback" for errors
+									   
+### - Session user 
+ -  <span th:text="${@loggedUser.fullName}"></span>
+ 
+ ###

@@ -28,7 +28,7 @@
                            th:object="${loginDTO}"
                           class="text-center text-light">
                         <h3 class="mt-5 text-center">
-                            <strong th:if="${badCredentials != null}" class="rounded  pl-3 text-danger">Enter valid
+                            <strong th:if="${badCredentials}" class="rounded  pl-3 text-danger">Enter valid
                                 username and
                                 password</strong>
                         </h3>

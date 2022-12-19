@@ -13,4 +13,6 @@ public interface ShipRepository extends JpaRepository<Ship, Long> {
 
     List<Ship> findAllByUser(User user);
 
+    List<Ship> findAllByOrderByHealthAscNameDescPowerAsc();
+
 }
