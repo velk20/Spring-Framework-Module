@@ -1,5 +1,11 @@
 ### Include thymleafe 
-- After the DOCTYPE => <html lang="en" xmlns:th="http://www.thymeleaf.org">
+- After the DOCTYPE =>  xmlns:th="http://www.thymeleaf.org"
+									 xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+
+### Has Role
+- sec:authorize="isAuthenticated()"
+- sec:authorize="hasRole('MODERATOR')"
+- sec:authentication="name" => gets the current logged user name
 
 ### Include fragmets
 - <div th:replace="fragments/nav"></div>
