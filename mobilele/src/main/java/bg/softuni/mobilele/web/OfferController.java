@@ -4,6 +4,7 @@ import bg.softuni.mobilele.model.dto.AddOfferDTO;
 import bg.softuni.mobilele.model.dto.BrandDTO;
 import bg.softuni.mobilele.service.BrandService;
 import bg.softuni.mobilele.service.OfferService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,8 +52,8 @@ public class OfferController {
     @PostMapping("/add")
     public String addOffer(
             @Valid AddOfferDTO addOfferModel,
-                           BindingResult bindingResult,
-                           RedirectAttributes redirectAttributes) {
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addOfferModel", addOfferModel);
