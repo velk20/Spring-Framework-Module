@@ -6,20 +6,30 @@ import bg.softuni.pathfinder.model.dto.RegisterUserDTO;
 import bg.softuni.pathfinder.repository.UserRepository;
 import bg.softuni.pathfinder.user.CurrentUser;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class UserService {
-    private final CurrentUser currentUser;
     private final ModelMapper mapper;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService appUserDetailsService;
 
-    public UserService(CurrentUser currentUser, ModelMapper mapper, UserRepository userRepository) {
-        this.currentUser = currentUser;
+    public UserService(ModelMapper mapper, UserRepository userRepository
+            , PasswordEncoder passwordEncoder, UserDetailsService appUserDetailsService) {
         this.mapper = mapper;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.appUserDetailsService = appUserDetailsService;
     }
 
     public void registerUser(RegisterUserDTO registerUserDTO) {
@@ -38,8 +48,14 @@ public class UserService {
         }
 
         User user = mapper.map(registerUserDTO, User.class);
+        user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
 
         this.userRepository.save(user);
+    }
+
+    public User getUser(String username) {
+        return  this.userRepository.findByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException("User not found!"));
     }
 
     public void loginUser(LoginUserDTO loginUserDTO) {
@@ -50,17 +66,24 @@ public class UserService {
             return;
         }
 
-        if (!byUsername.get().getPassword().equals(loginUserDTO.getPassword())) {
+        if (!passwordEncoder.matches(loginUserDTO.getPassword(), byUsername.get().getPassword())) {
             return;
         }
 
-        currentUser.setLoggedIn(true).setName(loginUserDTO.getUsername()).setAdmin(false
-        );
+        UserDetails userDetails =
+                appUserDetailsService.loadUserByUsername(byUsername.get().getUsername());
 
-    }
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        userDetails.getPassword(),
+                        userDetails.getAuthorities()
+                );
 
-    public void logout() {
-        currentUser.clear();
+        SecurityContextHolder.
+                getContext().
+                setAuthentication(auth);
+
     }
 
 }

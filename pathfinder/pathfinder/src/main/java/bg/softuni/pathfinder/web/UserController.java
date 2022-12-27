@@ -1,7 +1,9 @@
 package bg.softuni.pathfinder.web;
 
+import bg.softuni.pathfinder.model.User;
 import bg.softuni.pathfinder.model.dto.LoginUserDTO;
 import bg.softuni.pathfinder.model.dto.RegisterUserDTO;
+import bg.softuni.pathfinder.model.view.UserProfileView;
 import bg.softuni.pathfinder.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
@@ -28,15 +31,24 @@ public class UserController {
     public void initForm(Model model) {
         model.addAttribute("registerUserDTO", new RegisterUserDTO());
     }
+
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model) {
+        String username = principal.getName();
+        User user = userService.getUser(username);
+        UserProfileView userProfileView = new UserProfileView()
+                .setAge(user.getAge())
+                .setEmail(user.getEmail())
+                .setFullName(user.getFullName())
+                .setUsername(user.getUsername())
+                .setLevel(user.getLevel()!=null ? user.getLevel().name() : "BEGINNER");
+
+        model.addAttribute("user", userProfileView);
+        return "profile";
+    }
     @GetMapping("/login")
     public String loginView() {
         return "login";
-    }
-
-    @PostMapping("/login")
-    public String login(LoginUserDTO loginUserDTO) {
-        userService.loginUser(loginUserDTO);
-        return "redirect:/";
     }
 
     @GetMapping("/register")
@@ -58,11 +70,5 @@ public class UserController {
         }
         this.userService.registerUser(registerUserDTO);
         return "redirect:/users/login";
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        userService.logout();
-        return "redirect:/";
     }
 }

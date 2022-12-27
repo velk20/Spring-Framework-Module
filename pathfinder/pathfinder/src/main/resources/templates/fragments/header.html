@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Header</title>
@@ -7,29 +9,31 @@
 <body>
 <nav class="main-nav">
     <ul>
-        <li  th:if="${@currentUser.isAnonymous()}">
+        <li  sec:authorize="isAnonymous()">
             <a href="/">Home</a>
         </li>
-        <li  th:if="${@currentUser.isAnonymous()}">
+        <li  sec:authorize="isAnonymous()">
             <a href="/users/login">Login</a>
         </li>
-        <li  th:if="${@currentUser.isAnonymous()}">
+        <li  sec:authorize="isAnonymous()">
             <a href="/users/register">Register</a>
         </li>
-        <li  th:if="${@currentUser.isAnonymous()}">
+        <li  sec:authorize="isAnonymous()">
             <a href="/about">About</a>
         </li>
-        <li  th:if="${@currentUser.isLoggedIn()}">
+        <li  sec:authorize="isAuthenticated()">
             <a href="/">Add new route</a>
         </li>
-        <li  th:if="${@currentUser.isLoggedIn()}">
-            <a href="/">Profile</a>
+        <li  sec:authorize="isAuthenticated()">
+            <a href="/users/profile">Profile</a>
         </li>
-        <li  th:if="${@currentUser.isAdmin()}">
+        <li  sec:authorize="hasRole('ADMIN')">
             <a href="/">Admin</a>
         </li>
-        <li  th:if="${@currentUser.isLoggedIn()}">
-            <a href="/users/logout">Logout</a>
+        <li   sec:authorize="isAuthenticated()">
+            <form id="GFG" th:action="@{/users/logout}" th:method="post">
+                <a href="javascript:document.getElementById('GFG').submit();">Logout</a>
+            </form>
         </li>
     </ul>
 </nav>
