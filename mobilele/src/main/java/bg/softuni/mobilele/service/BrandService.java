@@ -1,7 +1,7 @@
 package bg.softuni.mobilele.service;
 
-import bg.softuni.mobilele.model.dto.BrandDTO;
-import bg.softuni.mobilele.model.dto.ModelDTO;
+import bg.softuni.mobilele.model.dto.brand.BrandDTO;
+import bg.softuni.mobilele.model.dto.model.ModelDTO;
 import bg.softuni.mobilele.model.entity.BrandEntity;
 import bg.softuni.mobilele.model.entity.ModelEntity;
 import bg.softuni.mobilele.repository.BrandRepository;
@@ -12,34 +12,36 @@ import java.util.stream.Collectors;
 
 @Service
 public class BrandService {
-    private final BrandRepository brandRepository;
 
-    public BrandService(BrandRepository brandRepository) {
-        this.brandRepository = brandRepository;
-    }
+  private BrandRepository brandRepository;
 
-    public List<BrandDTO> getAllBrands() {
-     return    this.brandRepository
-                .findAll()
-                .stream()
-                .map(this::mapBrand)
-                .collect(Collectors.toList());
-    }
+  public BrandService(BrandRepository brandRepository) {
+    this.brandRepository = brandRepository;
+  }
 
-    private BrandDTO mapBrand(BrandEntity brandEntity) {
-        List<ModelDTO> models = brandEntity
-                .getModels()
-                .stream()
-                .map(this::mapModel)
-                .collect(Collectors.toList());
-        return new BrandDTO()
-                .setModels(models)
-                .setName(brandEntity.getName());
-    }
+  public List<BrandDTO> getAllBrands() {
+    return brandRepository.
+        findAll().
+        stream().
+        map(this::mapBrand).
+        collect(Collectors.toList());
+  }
 
-    private ModelDTO mapModel(ModelEntity modelEntity) {
-        return new ModelDTO()
-                .setId(modelEntity.getId())
-                .setName(modelEntity.getName());
-    }
+  private BrandDTO mapBrand(BrandEntity brandEntity) {
+    List<ModelDTO> models = brandEntity.
+        getModels().
+        stream().
+        map(this::mapModel).
+        toList();
+
+    return new BrandDTO().
+        setModels(models).
+        setName(brandEntity.getName());
+  }
+
+  private ModelDTO mapModel(ModelEntity modelEntity) {
+    return new ModelDTO().
+        setId(modelEntity.getId()).
+        setName(modelEntity.getName());
+  }
 }

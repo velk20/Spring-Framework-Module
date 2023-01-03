@@ -5,15 +5,19 @@ import bg.softuni.mobilele.repository.UserRepository;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserEmail,String> {
-    private final UserRepository userRepository;
+public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
-    public UniqueUserEmailValidator(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  private UserRepository userRepository;
 
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        return userRepository.findByEmail(value).isEmpty();
-    }
+  public UniqueUserEmailValidator(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
+  @Override
+  public boolean isValid(String value, ConstraintValidatorContext context) {
+
+    return userRepository.
+        findByEmail(value).
+        isEmpty();
+  }
 }

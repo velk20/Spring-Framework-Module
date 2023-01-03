@@ -6,40 +6,43 @@ import org.springframework.beans.PropertyAccessorFactory;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch,Object> {
-    private String first;
-    private String second;
-    private String message;
+public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
 
-    @Override
-    public boolean isValid(Object value, ConstraintValidatorContext context) {
-        BeanWrapper beanWrapper = PropertyAccessorFactory
-                .forBeanPropertyAccess(value);
+  private String first;
+  private String second;
+  private String message;
 
-        Object firstValue = beanWrapper.getPropertyValue(this.first);
-        Object secondValue = beanWrapper.getPropertyValue(this.second);
-        boolean valid;
+  @Override
+  public void initialize(FieldMatch constraintAnnotation) {
+    this.first = constraintAnnotation.first();
+    this.second = constraintAnnotation.second();
+    this.message = constraintAnnotation.message();
+  }
 
-        if (firstValue == null) {
-            valid = secondValue == null;
-        } else {
-            valid = firstValue.equals(secondValue);
-        }
+  @Override
+  public boolean isValid(Object value, ConstraintValidatorContext context) {
+    BeanWrapper beanWrapper = PropertyAccessorFactory.
+        forBeanPropertyAccess(value);
 
-        if (!valid) {
-            context.buildConstraintViolationWithTemplate(this.message)
-                    .addPropertyNode(this.second)
-                    .addConstraintViolation()
-                    .disableDefaultConstraintViolation();
-        }
+    Object firstValue = beanWrapper.getPropertyValue(this.first);
+    Object secondValue = beanWrapper.getPropertyValue(this.second);
 
-        return valid;
+    boolean valid;
+
+    if (firstValue == null) {
+      valid = secondValue == null;
+    } else {
+      valid = firstValue.equals(secondValue);
     }
 
-    @Override
-    public void initialize(FieldMatch constraintAnnotation) {
-        this.first = constraintAnnotation.first();
-        this.second = constraintAnnotation.second();
-        this.message = constraintAnnotation.message();
+    if (!valid) {
+      context.
+          buildConstraintViolationWithTemplate(message).
+          addPropertyNode(second).
+          addConstraintViolation().
+          disableDefaultConstraintViolation();
     }
+
+    return valid;
+  }
 }

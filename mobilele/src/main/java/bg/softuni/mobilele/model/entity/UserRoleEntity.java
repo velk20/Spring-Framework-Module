@@ -5,38 +5,40 @@ import bg.softuni.mobilele.model.enums.UserRoleEnum;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name ="user_roles")
 public class UserRoleEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserRoleEnum userRoleEnum;
 
-    public UserRoleEnum getUserRoleEnum() {
-        return userRoleEnum;
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public UserRoleEntity setUserRoleEnum(UserRoleEnum userRoleEnum) {
-        this.userRoleEnum = userRoleEnum;
-        return this;
-    }
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  private UserRoleEnum userRole;
 
-    public long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public UserRoleEntity setId(long id) {
-        this.id = id;
-        return this;
-    }
+  public UserRoleEntity setId(Long id) {
+    this.id = id;
+    return this;
+  }
 
-    @Override
-    public String toString() {
-        return "UserRoleEntity{" +
-                "id=" + id +
-                ", userRoleEnum=" + userRoleEnum +
-                '}';
-    }
+  public UserRoleEnum getUserRole() {
+    return userRole;
+  }
+
+  public UserRoleEntity setUserRole(UserRoleEnum userRole) {
+    this.userRole = userRole;
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    return "UserRoleEntity{" +
+        "id=" + id +
+        ", userRole=" + userRole +
+        '}';
+  }
 }

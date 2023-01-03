@@ -7,83 +7,87 @@ import javax.persistence.*;
 @Entity
 @Table(name = "models")
 public class ModelEntity extends BaseEntity {
-    @Column(nullable = false)
-    private String name;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private CategoryEnum categoryEnum;
-    @Column(nullable = false)
-    private String imageUrl;
-    private int startYear;
-    private Integer endYear;
-    @ManyToOne
-    private BrandEntity brand;
 
-    public String getName() {
-        return name;
-    }
+  @Column(nullable = false)
+  private String name;
 
-    public ModelEntity setName(String name) {
-        this.name = name;
-        return this;
-    }
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  private CategoryEnum category;
 
-    public CategoryEnum getCategoryEnum() {
-        return categoryEnum;
-    }
+  @Column(nullable = false)
+  private String imageUrl;
 
-    public ModelEntity setCategoryEnum(CategoryEnum categoryEnum) {
-        this.categoryEnum = categoryEnum;
-        return this;
-    }
+  private int startYear;
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+  private Long endYear;
 
-    public ModelEntity setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-        return this;
-    }
+  @ManyToOne
+  private BrandEntity brand;
 
-    public int getStartYear() {
-        return startYear;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public ModelEntity setStartYear(int startYear) {
-        this.startYear = startYear;
-        return this;
-    }
+  public ModelEntity setName(String name) {
+    this.name = name;
+    return this;
+  }
 
-    public int getEndYear() {
-        return endYear;
-    }
+  public CategoryEnum getCategory() {
+    return category;
+  }
 
-    public ModelEntity setEndYear(int endYear) {
-        this.endYear = endYear;
-        return this;
-    }
+  public ModelEntity setCategory(CategoryEnum category) {
+    this.category = category;
+    return this;
+  }
 
-    public BrandEntity getBrand() {
-        return brand;
-    }
+  public String getImageUrl() {
+    return imageUrl;
+  }
 
-    public ModelEntity setBrand(BrandEntity brand) {
-        this.brand = brand;
-        return this;
-    }
+  public ModelEntity setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+    return this;
+  }
 
-    @Override
-    public String toString() {
-        return "ModelEntity{" +
-                "name='" + name + '\'' +
-                ", categoryEnum=" + categoryEnum +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", startYear=" + startYear +
-                ", endYear=" + endYear +
-                ", brand=" + (brand != null ? brand.getName() : null) +
-                '}';
-    }
+  public int getStartYear() {
+    return startYear;
+  }
+
+  public ModelEntity setStartYear(int startYear) {
+    this.startYear = startYear;
+    return this;
+  }
+
+  public Long getEndYear() {
+    return endYear;
+  }
+
+  public ModelEntity setEndYear(Long endYear) {
+    this.endYear = endYear;
+    return this;
+  }
+
+  public BrandEntity getBrand() {
+    return brand;
+  }
+
+  public ModelEntity setBrand(BrandEntity brand) {
+    this.brand = brand;
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    return "ModelEntity{" +
+        "name='" + name + '\'' +
+        ", category=" + category +
+        ", imageUrl='" + imageUrl + '\'' +
+        ", startYear=" + startYear +
+        ", endYear=" + endYear +
+        ", brand=" + (brand != null ? brand.getName() : null) +
+        '}';
+  }
 }
-
-

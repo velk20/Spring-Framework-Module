@@ -11,132 +11,146 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "offers")
-public class OfferEntity {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
-    @Type(type = "uuid-char")
-    private UUID id;
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private EngineEnum engine;
-    @Column(nullable = false,columnDefinition = "TEXT")
-    private String description;
-    private String imageUrl;
-    private int mileage;
-    @Column(nullable = false)
-    private BigDecimal price;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TransmissionEnum transmission;
-    @Column(nullable = false)
-    private int year;
-    @ManyToOne
-    private ModelEntity model;
-    @ManyToOne
-    private UserEntity seller;
-    public UUID getId() {
-        return id;
-    }
+public class OfferEntity  {
 
-    public OfferEntity setId(UUID id) {
-        this.id = id;
-        return this;
-    }
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(
+      name = "UUID",
+      strategy = "org.hibernate.id.UUIDGenerator"
+  )
+  @Type(type = "uuid-char")
+  private UUID id;
 
-    public EngineEnum getEngine() {
-        return engine;
-    }
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private EngineEnum engine;
 
-    public OfferEntity setEngine(EngineEnum engine) {
-        this.engine = engine;
-        return this;
-    }
+  private String imageUrl;
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+  private int mileage;
 
-    public OfferEntity setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-        return this;
-    }
+  @Column(nullable = false)
+  private BigDecimal price;
 
-    public int getMileage() {
-        return mileage;
-    }
+  @Column(nullable = false)
+  private String description;
 
-    public OfferEntity setMileage(int mileage) {
-        this.mileage = mileage;
-        return this;
-    }
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private TransmissionEnum transmission;
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  private int year;
 
-    public OfferEntity setPrice(BigDecimal price) {
-        this.price = price;
-        return this;
-    }
+  @ManyToOne
+  private ModelEntity model;
 
-    public TransmissionEnum getTransmission() {
-        return transmission;
-    }
+  @ManyToOne
+  private UserEntity seller;
 
-    public OfferEntity setTransmission(TransmissionEnum transmission) {
-        this.transmission = transmission;
-        return this;
-    }
+  public UUID getId() {
+    return id;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public OfferEntity setId(UUID id) {
+    this.id = id;
+    return this;
+  }
 
-    public OfferEntity setDescription(String description) {
-        this.description = description;
-        return this;
-    }
+  public EngineEnum getEngine() {
+    return engine;
+  }
 
-    public int getYear() {
-        return year;
-    }
+  public OfferEntity setEngine(EngineEnum engine) {
+    this.engine = engine;
+    return this;
+  }
 
-    public OfferEntity setYear(int year) {
-        this.year = year;
-        return this;
-    }
+  public String getImageUrl() {
+    return imageUrl;
+  }
 
-    public ModelEntity getModel() {
-        return model;
-    }
+  public OfferEntity setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+    return this;
+  }
 
-    public OfferEntity setModel(ModelEntity model) {
-        this.model = model;
-        return this;
-    }
+  public int getMileage() {
+    return mileage;
+  }
 
-    public UserEntity getSeller() {
-        return seller;
-    }
+  public OfferEntity setMileage(int mileage) {
+    this.mileage = mileage;
+    return this;
+  }
 
-    public OfferEntity setSeller(UserEntity seller) {
-        this.seller = seller;
-        return this;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    @Override
-    public String toString() {
-        return "OfferEntity{" +
-                "id=" + id +
-                ", engine=" + engine +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", mileage=" + mileage +
-                ", price=" + price +
-                ", transmission=" + transmission +
-                ", year=" + year +
-                ", model=" + model +
-                ", seller=" + seller +
-                '}';
-    }
+  public OfferEntity setPrice(BigDecimal price) {
+    this.price = price;
+    return this;
+  }
+
+  public TransmissionEnum getTransmission() {
+    return transmission;
+  }
+
+  public OfferEntity setTransmission(TransmissionEnum transmission) {
+    this.transmission = transmission;
+    return this;
+  }
+
+  public int getYear() {
+    return year;
+  }
+
+  public OfferEntity setYear(int year) {
+    this.year = year;
+    return this;
+  }
+
+  public ModelEntity getModel() {
+    return model;
+  }
+
+  public OfferEntity setModel(ModelEntity model) {
+    this.model = model;
+    return this;
+  }
+
+  public UserEntity getSeller() {
+    return seller;
+  }
+
+  public OfferEntity setSeller(UserEntity seller) {
+    this.seller = seller;
+    return this;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public OfferEntity setDescription(String description) {
+    this.description = description;
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    return "OfferEntity{" +
+        "id=" + id +
+        ", engine=" + engine +
+        ", imageUrl='" + imageUrl + '\'' +
+        ", mileage=" + mileage +
+        ", price=" + price +
+        ", description='" + description + '\'' +
+        ", transmission=" + transmission +
+        ", year=" + year +
+        ", model=" + model +
+        ", seller=" + seller +
+        '}';
+  }
 }

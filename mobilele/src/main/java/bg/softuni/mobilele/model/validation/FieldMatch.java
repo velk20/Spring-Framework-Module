@@ -10,14 +10,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Constraint(validatedBy = FieldMatchValidator.class)
-public @interface FieldMatch  {
+public @interface FieldMatch {
 
-    String first();
+  String first();
 
-    String second();
-    String message() default "Invalid Field";
+  String second();
 
-    Class<?>[] groups() default {};
+  String message() default "Invalid Email";
 
-    Class<? extends Payload>[] payload() default {};
+  Class<?>[] groups() default {};
+
+  Class<? extends Payload>[] payload() default {};
 }

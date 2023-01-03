@@ -1,21 +1,45 @@
-logging:
-    level:
-        org:
-            hibernate:
-                SQL: debug
-                type:
-                    descriptor: trace
 spring:
-    datasource:
-        driverClassName: com.mysql.cj.jdbc.Driver
-        password: root
-        url: jdbc:mysql://localhost:3306/mobilelele?createDatabaseIfNotExist=true
-        username: root
-    jpa:
-#        The DB will be instasiate first before inserst
-        defer-datasource-initialization: true
-        hibernate:
-            ddl-auto: update
-    sql:
-        init:
-            mode: never
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mobilele_lucho0?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: your-client-id-here
+            client-secret: your-secret-here
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+mail:
+  host: "localhost"
+  port: 1025
+  username: "mobilele@mobilele.com"
+  password: ""
+
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"

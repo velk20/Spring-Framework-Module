@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -15,46 +15,49 @@
 
 <div th:replace="fragments/navbar">Navbar</div>
 
-
-
 <div class="container">
     <h2 class="text-center text-white">Upload Offer</h2>
-    <form
-            th:action="@{/offers/add}"
-            th:method="post"
-            th:object="${addOfferModel}"
+    <form th:action="@{/offers/add}"
+          th:method="post"
+          th:object="${addOfferModel}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
 
             <div class="form-group col-md-6 mb-3">
                 <label class="text-center text-white font-weight-bold" for="modelId">Model</label>
-
                 <select id="modelId"
                         name="modelId"
                         th:errorclass="is-invalid"
                         class="form-control">
                     <option value="">- Select a model -</option>
-                    <optgroup label="Brand name"
-                    th:each="brand : ${brands}"
-                    th:label="${brand.getName()}">
-                        <option th:each="model : ${brand.getModels()}"
-                        th:text="${model.getName()}"
-                        th:value="${model.getId()}"
-                        th:selected="${model.getId()} == *{modelId}">
-                            Model
+                    <optgroup
+                            th:each="brand : ${brands}"
+                            th:label="${brand.name}">
+                        <option
+                                th:each="model : ${brand.models}"
+                                th:text="${model.name}"
+                                th:value="${model.id}"
+                                th:selected="*{modelId} == ${model.id}">Model
                         </option>
                     </optgroup>
                 </select>
                 <p class="invalid-feedback errors alert alert-danger">
-                    Vehicle model is required.
+                    Vechicle model is required.
                 </p>
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label for="price" class="text-white font-weight-bold">Price</label>
-                <input id="price" name="price" th:field="*{price}" th:errorclass="is-invalid"  type="number" min="0" step="100"
-                       class="form-control"
-                       placeholder="Suggested price"/>
-                <p  class="invalid-feedback errors alert alert-danger">
+                <input
+                        id="price"
+                        th:field="*{price}"
+                        th:errorclass="is-invalid"
+                        type="number"
+                        min="0"
+                        step="100"
+                        class="form-control"
+                        placeholder="Suggested price"
+                />
+                <p class="invalid-feedback errors alert alert-danger">
                     Suggested price is required.
                 </p>
             </div>
@@ -81,13 +84,16 @@
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label class="text-center text-white font-weight-bold" for="transmission">Transmission</label>
-
-                <select id="transmission" name="transmission" th:errorclass="is-invalid" class="form-control">
+                <select id="transmission"
+                        name="transmission"
+                        th:errorclass="is-invalid"
+                        class="form-control">
                     <option value="">- Select transmission type -</option>
                     <option th:each="e : ${T(bg.softuni.mobilele.model.enums.TransmissionEnum).values()}"
                             th:text="${e}"
                             th:value="${e}"
-                            th:selected="${e} == *{transmission}"> Transmission type
+                            th:selected="${e} == *{transmission}">
+                        Transmission type
                     </option>
                 </select>
                 <p class="invalid-feedback errors alert alert-danger">
@@ -98,21 +104,29 @@
         <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label for="year" class="text-white font-weight-bold">Year</label>
-                <input id="year" name="year"  required
-                       th:field="*{year}" th:errorclass="is-invalid"
-                       type="number" min="1900" max="2099" step="1"
-                       class="form-control"
-                       placeholder="Manufacturing year"/>
-                <p class="invalid-feedback errors alert alert-danger"
-                   th:each="err : ${#fields.errors('year')}" th:text="${err}">
-                    Error
+                <input
+                        id="year"
+                        th:field="*{year}"
+                        th:errorclass="is-invalid"
+                        type="number"
+                        step="1"
+                        class="form-control"
+                        placeholder="Manufacturing year"
+                />
+                <p class="invalid-feedback errors alert alert-danger">
+                    Manufacturing year is required.
                 </p>
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label for="mileage" class="text-white font-weight-bold">Mileage</label>
-                <input id="mileage" name="mileage" th:field="*{mileage}" th:errorclass="is-invalid" type="number" min="0" max="900000" step="1000"
-                       class="form-control"
-                       placeholder="Mileage in kilometers"/>
+                <input
+                        id="mileage"
+                        th:field="*{mileage}"
+                        th:errorclass="is-invalid"
+                        type="number"
+                        class="form-control"
+                        placeholder="Mileage in kilometers"
+                />
                 <p class="invalid-feedback errors alert alert-danger">
                     Mileage in kilometers is required.
                 </p>
@@ -121,18 +135,30 @@
 
         <div class="form-group">
             <label class="text-white font-weight-bold" for="description">Description</label>
-            <textarea id="description" name="description" th:text="*{description}" th:errorclass="is-invalid"
-                      type="textarea"
-                      class="form-control" rows="3"
-                      placeholder="Description"></textarea>
+            <textarea
+                    id="description"
+                    th:field="*{description}"
+                    th:errorclass="is-invalid"
+                    type="textarea"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Description"
+            >
+            </textarea>
             <p class="invalid-feedback errors alert alert-danger">
                 Description is required.
             </p>
         </div>
         <div class="form-group">
             <label class="text-white font-weight-bold" for="imageUrl">Image URL</label>
-            <input id="imageUrl" name="imageUrl" th:field="*{imageUrl}" th:errorclass="is-invalid" type="url" class="form-control"
-                   placeholder="Put vehicle image URL here">
+            <input
+                    id="imageUrl"
+                    th:field="*{imageUrl}"
+                    th:errorclass="is-invalid"
+                    type="url"
+                    class="form-control"
+                    placeholder="Put vehicle image URL here"
+            />
             <p class="invalid-feedback errors alert alert-danger">
                 Vehicle image URL is required.
             </p>
@@ -149,7 +175,7 @@
 </div>
 
 <div>
-    <footer> </footer>
+    <footer></footer>
 </div>
 
 </body>
