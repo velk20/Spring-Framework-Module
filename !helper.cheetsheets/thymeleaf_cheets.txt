@@ -6,6 +6,7 @@
 - sec:authorize="isAuthenticated()"
 - sec:authorize="hasRole('MODERATOR')"
 - sec:authentication="name" => gets the current logged user name
+- th:text="${#authentication.principal.fullName}" => for spring security printing name
 
 ### Include fragmets
 - <div th:replace="fragments/nav"></div>
