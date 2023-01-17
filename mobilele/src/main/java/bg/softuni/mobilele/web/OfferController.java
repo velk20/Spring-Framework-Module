@@ -111,7 +111,7 @@ public class OfferController {
         return "details";
     }
 
-    //@PreAuthorize("@offerService.isOwner(#principal.name, #uuid)")
+//    @PreAuthorize("@offerService.isOwner(#principal.name, #uuid)")
     @PreAuthorize("isOwner(#uuid)")
     @DeleteMapping("/offers/{id}")
     public String deleteOffer(

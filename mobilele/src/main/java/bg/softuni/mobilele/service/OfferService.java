@@ -104,7 +104,7 @@ public class OfferService {
 
     public List<OfferDetailDTO> searchOffer(SearchOfferDTO searchOfferDTO) {
         return this.offerRepository.findAll(new OfferSpecification(searchOfferDTO)).
-            stream().map(offer -> offerMapper.offerEntityToOfferDetailDto(offer)).
+            stream().map(offerMapper::offerEntityToOfferDetailDto).
             toList();
     }
 }
